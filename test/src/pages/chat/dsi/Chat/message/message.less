@@ -1,0 +1,49 @@
+.message {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+
+  .sent-time {
+    text-align: center;
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  .message-info {
+    display: flex;
+
+    &.reverse {
+      flex-direction: row-reverse;
+    }
+  }
+
+  .message-body {
+    max-width: 65%;
+    margin:0 10px;
+  }
+
+  .sender-name {
+    font-size: 14px;
+    color: #ccc;
+
+    &.self {
+      text-align: right;
+    }
+  }
+
+  .bubble {
+    margin-top: 5px;
+    color: #000;
+    font-size: 14px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    background-color: #fff;
+  }
+}
+
+.message-sys {
+  font-size: 12px;
+  text-align: center;
+  color: #ccc;
+}

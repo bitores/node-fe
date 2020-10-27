@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>public-log</title>
+  <!-- 生产环境版本，优化了尺寸和速度 -->
+  <script src="https://h5.zmjx.com/FE/help/js/vue.min.js"></script>
+  <script src="https://h5.zmjx.com/FE/help/js/axios.min.js"></script>
+  <!-- 引入 vant 文件 -->
+  <link href="https://h5.zmjx.com/FE/help/js/vant.css"   rel="stylesheet" type="text/css" />
+  <script src="https://h5.zmjx.com/FE/help/js/vant.js"></script>
+  <script>
+    //designWidth:设计稿的实际宽度值，需要根据实际设置
+      //maxWidth:制作稿的最大宽度值，需要根据实际设置
+      //这段js的最后面有两个参数记得要设置，一个为设计稿实际宽度，一个为制作稿最大宽度，例如设计稿为750，最大宽度为750，则为(750,750)
+      ; (function (designWidth, maxWidth) {
+        var doc = document,
+          win = window,
+          docEl = doc.documentElement,
+          remStyle = document.createElement("style"),
+          tid;
+
+        function refreshRem() {
+          var width = docEl.getBoundingClientRect().width;
+          maxWidth = maxWidth || 540;
+          width > maxWidth && (width = maxWidth);
+          var rem = width * 100 / designWidth;
+          remStyle.innerHTML = 'html{font-size:' + rem + 'px;}';
+        }
+
+        if (docEl.firstElementChild) {
+          docEl.firstElementChild.appendChild(remStyle);
+        } else {
+          var wrap = doc.createElement("div");
+          wrap.appendChild(remStyle);
+          doc.write(wrap.innerHTML);
+          wrap = null;
+        }
+        //要等 wiewport 设置好后才能执行 refreshRem，不然 refreshRem 会执行2次；
+        refreshRem();
+
+        win.addEventListener("resize", function () {
+          clearTimeout(tid); //防止执行两次
+          tid = setTimeout(refreshRem, 300);
+        }, false);
+
+        win.addEventListener("pageshow", function (e) {
+          if (e.persisted) { // 浏览器后退的时候重新计算
+            clearTimeout(tid);
+            tid = setTimeout(refreshRem, 300);
+          }
+        }, false);
+
+        if (doc.readyState === "complete") {
+          doc.body.style.fontSize = "16px";
+        } else {
+          doc.addEventListener("DOMContentLoaded", function (e) {
+            doc.body.style.fontSize = "16px";
+          }, false);
+        }
+      })(375, 750);
+  </script>
+  <script>
+    
+
+    function getParamFromUrl(name) {
+      var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+      var r = window.location.search.substr(1).match(reg);
+      return r ? decodeURIComponent(r[2]) : '';
+    }
+
+    function setTitle(title){
+      document.title = title;
+      var mobile = navigator.userAgent.toLowerCase();
+      if (/iphone|ipad|ipod/.test(mobile)) {
+        var iframe = document.createElement('iframe');
+        iframe.style.visibility = 'hidden';
+        iframe.style.height = 0;
+        iframe.style.display = 'none';
+        iframe.setAttribute('src', 'favicon.ico');
+        var iframeCallback = function () {
+          setTimeout(function () {
+            iframe.removeEventListener('load', iframeCallback);
+            document.body.removeChild(iframe);
+          }, 0);
+        };
+        iframe.addEventListener('load', iframeCallback);
+        document.body.appendChild(iframe);
+      }
+    }
+
+    let baseUrl = 'https://xxx.xxx.com/';
+    const domain = window.document.domain;
+    const env = getParamFromUrl('env');
+    if (domain.match('devh5')|| domain.match('192') || domain.match('localhost') ) {
+      baseUrl = 'https://devapi.xxx.com/';
+    } else if (domain.match('daily') || env === 'daily') {
+      baseUrl = 'https://dailyapi.xxx.com/';
+    } else if (domain.match('gray') || env === 'gray') {
+      baseUrl = 'https://grayapi.xxxx.com/';
+    }
+
+  
+    let token = '';
+    var u = navigator.userAgent;
+    var isIOS = !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/);
+
+    
+  </script>
+  <style>
+    *{
+      padding:0;margin:0;
+    }
+    .rela {
+      position: relative;
+    }
+    .block{
+      display: block;
+      width: 100%;
+    }
+    .float-btn {
+      position: absolute;
+      /* top: 0; */
+      bottom: 1.0rem;
+      left:0;right:0;
+      margin: auto;
+      width: 70vw;
+    }
+    .float-area {
+      position: absolute;
+      /* top: 0; */
+      bottom: .5rem;
+      left:0;right:0;
+      margin: auto;
+      width: 90vw;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .flex-row {
+      display: flex;
+    }
+
+    .flex-row .column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .column-title {
+      color: #FEEE40;
+      font-size: .15rem;
+      padding: 5px 0;
+    }
+
+    .column-tip {
+      /* color: ; */
+      font-size: .25rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    
+    
+  </div>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data:()=>{
+        return {
+          entry: {}
+        }
+      },
+      mounted(){
+        console.log('.....')
+        axios({
+          method: 'get',
+          url: baseUrl + 'xxxxx',
+          headers:{
+            token: token,
+            app_version: '3.0.0',
+            zmjx_client: (isIOS ? 1 : 2)
+          }
+          // params: {
+          //   firstName: 'Fred',
+          //   lastName: 'Flintstone'
+          // }
+        }).then(({data:res})=>{
+          console.log(res)
+          if(res.status) {
+            const entry = res.entry || {};
+            this.entry = entry;
+            // console.log('===000')
+          } else {
+            // Toast()
+            this.toast(res.message)
+          }
+        })
+      },
+      methods: {
+        
+        toast(msg){
+          vant.Toast(msg);
+        }
+      }
+    })
+  </script>
+</body>
+</html>
